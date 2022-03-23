@@ -1,0 +1,6 @@
+{
+  "errors": {
+    "noFunds": "Saldo insuficiente",
+    "invalid": "Método de pagamento inválido ou saldo insuficiente"
+  }
+}

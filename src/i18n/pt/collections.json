@@ -1,0 +1,6 @@
+{
+  "errors": {
+    "invalid": "Essa solicitação de coleta está indisponível",
+    "not_found": "Solicitação de coletada não enccontrada"
+  }
+}

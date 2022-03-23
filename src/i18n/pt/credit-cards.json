@@ -1,0 +1,7 @@
+{
+  "errors": {
+    "notFound": "Cartão de crédito não encontrado",
+    "invalid": "Cartão de crédito inválido",
+    "inOperation": "Você não pode remover o cartão enquanto as coletas pendentes não forem finalizadas"
+  }
+}

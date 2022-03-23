@@ -1,0 +1,17 @@
+{
+  "errors": {
+    "common": {
+      "notFound": "Usuário não encontrado"
+    },
+    "forgotPassword": {
+      "noUser": "Usuário não encontrado"
+    },
+    "resetPassword": {
+      "invalidCode": "Código inválido",
+      "invalidEmail": "E-mail inválido"
+    },
+    "updatePassword": {
+      "doNotMatch": "As senhas não conferem"
+    }
+  }
+}
