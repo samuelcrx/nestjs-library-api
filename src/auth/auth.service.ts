@@ -7,7 +7,6 @@ import { UsersService } from '@/users/users.service'
 import { JwtService } from '@nestjs/jwt'
 import * as bcrypt from 'bcrypt'
 import { AuthArgs } from './dto/auth.args'
-import { I18nContext } from 'nestjs-i18n'
 
 @Injectable()
 export class AuthService {
@@ -16,7 +15,7 @@ export class AuthService {
     private jwtService: JwtService
   ) {}
 
-  async login({ email, password }: AuthArgs, i18n: I18nContext): Promise<any> {
+  async login({ email, password }: AuthArgs): Promise<any> {
     const user = await this.usersService.findByEmail(email)
 
     if (!user) {

@@ -1,0 +1,159 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type AuthJWT {
+  """JWT authorization token"""
+  token: String!
+}
+
+type Author {
+  """author's id"""
+  _id: String!
+
+  """author's  age"""
+  age: Float!
+
+  """author's first name"""
+  first_name: String!
+
+  """author's last name"""
+  last_name: String!
+}
+
+type Book {
+  """books's id"""
+  _id: String!
+
+  """book's author"""
+  author: Author!
+
+  """books's description"""
+  description: String!
+
+  """books's  publishing_company"""
+  publishing_company: String!
+
+  """books's title"""
+  title: String!
+}
+
+input CreateAuthorInput {
+  """author's age"""
+  age: Float!
+
+  """author's first name"""
+  first_name: String!
+
+  """author's last name"""
+  last_name: String!
+}
+
+input CreateBookInput {
+  """book's author"""
+  author: String!
+
+  """book's description"""
+  description: String!
+
+  """book's publish company"""
+  publishing_company: String!
+
+  """book's title"""
+  title: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Mutation {
+  createAuthor(createAuthorInput: CreateAuthorInput!): Author!
+  createBook(createBookInput: CreateBookInput!): Book!
+  login(
+    """user's login email"""
+    email: String!
+
+    """user's login password"""
+    password: String!
+  ): AuthJWT!
+  registerUser(registerUserInput: RegisterUserInput!): User!
+  removeAuthor(id: String!): Author!
+  removeBook(id: String!): Book!
+  removeUser(id: String!): User!
+  updateAuthor(updateAuthorInput: UpdateAuthorInput!): Author!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+}
+
+type Query {
+  author(id: String!): Author!
+  authors: [Author!]!
+  class(id: String!): Book!
+  classes: [Book!]!
+  user(id: String!): User!
+  users: [User!]!
+  whoAmI: User!
+}
+
+input RegisterUserInput {
+  """user's email"""
+  email: String!
+
+  """user's first name"""
+  firstName: String!
+
+  """user's last name"""
+  lastName: String!
+
+  """user's password"""
+  password: String!
+}
+
+input UpdateAuthorInput {
+  """author's age"""
+  age: Float
+
+  """author's first name"""
+  first_name: String
+  id: String!
+
+  """author's last name"""
+  last_name: String
+}
+
+input UpdateUserInput {
+  """user's email"""
+  email: String
+
+  """user's first name"""
+  firstName: String
+
+  """user's id"""
+  id: String!
+
+  """user's last name"""
+  lastName: String
+
+  """user's password"""
+  password: String
+}
+
+type User {
+  """user's _id on registration"""
+  _id: String
+  createdAt: DateTime!
+
+  """user's email"""
+  email: String!
+
+  """user's name"""
+  firstName: String!
+
+  """user's last name"""
+  lastName: String!
+
+  """user's password"""
+  password: String!
+  updatedAt: DateTime!
+}

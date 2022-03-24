@@ -1,26 +1,41 @@
-import { Injectable } from '@nestjs/common';
-import { CreateAuthorInput } from './dto/create-author.input';
-import { UpdateAuthorInput } from './dto/update-author.input';
+import { Model } from 'mongoose'
+import { Injectable } from '@nestjs/common'
+import { CreateAuthorInput } from './dto/create-author.input'
+import { UpdateAuthorInput } from './dto/update-author.input'
+import { InjectModel } from '@nestjs/mongoose'
+import { Author, AuthorDocument } from './schemas/authors.schema'
 
 @Injectable()
 export class AuthorsService {
-  create(createAuthorInput: CreateAuthorInput) {
-    return 'This action adds a new author';
+  constructor(
+    @InjectModel(Author.name)
+    private authorModel: Model<AuthorDocument>
+  ) {}
+
+  async create(createAuthorInput: CreateAuthorInput) {
+    console.log('New author ', createAuthorInput)
+    const newAuthor = await this.authorModel.create(createAuthorInput)
+
+    if (!newAuthor) {
+      throw new Error("Author wasn't create")
+    }
+    console.log('New author ', newAuthor)
+    return newAuthor
   }
 
   findAll() {
-    return `This action returns all authors`;
+    return this.authorModel.find().exec()
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} author`;
+  findOne(id: string) {
+    return this.authorModel.findById(id).exec()
   }
 
-  update(id: number, updateAuthorInput: UpdateAuthorInput) {
-    return `This action updates a #${id} author`;
+  update(id: string, updateAuthorInput: UpdateAuthorInput) {
+    return this.authorModel.findByIdAndUpdate(id, updateAuthorInput).exec()
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} author`;
+  remove(id: string) {
+    return this.authorModel.findByIdAndDelete(id).exec()
   }
 }

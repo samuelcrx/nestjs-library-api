@@ -10,8 +10,8 @@ import { GraphQLError } from 'graphql'
 import { GqlJwtAuthGuard } from '@/guards/gql-jwt-auth.guard'
 import { I18nModule, I18nJsonParser } from 'nestjs-i18n'
 import { QueryResolver } from './i18n/query.resolver'
-import { AuthorsModule } from './authors/authors.module';
-import { BooksModule } from './books/books.module';
+import { AuthorsModule } from './authors/authors.module'
+import { BooksModule } from './books/books.module'
 
 @Module({
   imports: [

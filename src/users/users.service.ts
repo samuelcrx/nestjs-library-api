@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common'
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException
+} from '@nestjs/common'
 import { CreateUserInput } from './dto/create-user.input'
 import { UpdateUserInput } from './dto/update-user.input'
 import { RegisterUserInput } from './dto/register-user.input'
@@ -11,7 +15,7 @@ import * as bcrypt from 'bcrypt'
 export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
-  async create(input: CreateUserInput | RegisterUserInput) {
+  async create(input: RegisterUserInput) {
     const { password: plainPassword } = input
     const salt = await bcrypt.genSalt(Number(process.env.BCRYPT_ROUNDS))
     const password = await bcrypt.hash(plainPassword, salt)
@@ -23,18 +27,39 @@ export class UsersService {
   }
 
   async findOne(id: string) {
-    return this.userModel.findById(id).exec()
+    const user = this.userModel.findById(id).exec()
+
+    if (!user) {
+      throw new NotFoundException('User not found')
+    }
+    return user
   }
 
   async update(id: string, updateUserInput: UpdateUserInput) {
-    return this.userModel.findByIdAndUpdate(id, updateUserInput).exec()
+    const user = this.userModel.findByIdAndUpdate(id, updateUserInput).exec()
+
+    if (!user) {
+      throw new NotFoundException("User doesn't exist")
+    }
+    return user
   }
 
   async remove(id: string) {
-    return this.userModel.findByIdAndRemove(id).exec()
+    const userDeleted = this.userModel.findByIdAndRemove(id).exec()
+
+    if (!userDeleted) {
+      throw new InternalServerErrorException()
+    }
+    return userDeleted
   }
 
   async findByEmail(email: string) {
-    return this.userModel.findOne({ email }).exec()
+    const userByEmail = this.userModel.findOne({ email }).exec()
+
+    if (!userByEmail) {
+      throw new NotFoundException("User doesn't exist")
+    }
+
+    return userByEmail
   }
 }

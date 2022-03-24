@@ -28,6 +28,12 @@ export class User {
   @Prop()
   @Field(() => String, { description: "user's password" })
   password: string
+
+  @Field()
+  createdAt: Date
+
+  @Field()
+  updatedAt: Date
 }
 
 export const UserSchema = SchemaFactory.createForClass(User)

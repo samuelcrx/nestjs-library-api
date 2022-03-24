@@ -1,35 +1,41 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
-import { AuthorsService } from './authors.service';
-import { Author } from './entities/author.entity';
-import { CreateAuthorInput } from './dto/create-author.input';
-import { UpdateAuthorInput } from './dto/update-author.input';
+import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql'
+import { AuthorsService } from './authors.service'
+import { Author } from './schemas/authors.schema'
+import { CreateAuthorInput } from './dto/create-author.input'
+import { UpdateAuthorInput } from './dto/update-author.input'
+import { SkipAuth } from '@/common/decorators/skip-auth.decorator'
 
 @Resolver(() => Author)
 export class AuthorsResolver {
   constructor(private readonly authorsService: AuthorsService) {}
 
+  @SkipAuth()
   @Mutation(() => Author)
-  createAuthor(@Args('createAuthorInput') createAuthorInput: CreateAuthorInput) {
-    return this.authorsService.create(createAuthorInput);
+  createAuthor(
+    @Args('createAuthorInput') createAuthorInput: CreateAuthorInput
+  ) {
+    return this.authorsService.create(createAuthorInput)
   }
 
   @Query(() => [Author], { name: 'authors' })
   findAll() {
-    return this.authorsService.findAll();
+    return this.authorsService.findAll()
   }
 
   @Query(() => Author, { name: 'author' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.authorsService.findOne(id);
+  findOne(@Args('id', { type: () => String }) id: string) {
+    return this.authorsService.findOne(id)
   }
 
   @Mutation(() => Author)
-  updateAuthor(@Args('updateAuthorInput') updateAuthorInput: UpdateAuthorInput) {
-    return this.authorsService.update(updateAuthorInput.id, updateAuthorInput);
+  updateAuthor(
+    @Args('updateAuthorInput') updateAuthorInput: UpdateAuthorInput
+  ) {
+    return this.authorsService.update(updateAuthorInput.id, updateAuthorInput)
   }
 
   @Mutation(() => Author)
-  removeAuthor(@Args('id', { type: () => Int }) id: number) {
-    return this.authorsService.remove(id);
+  removeAuthor(@Args('id', { type: () => String }) id: string) {
+    return this.authorsService.remove(id)
   }
 }

@@ -10,11 +10,6 @@ import { RegisterUserInput } from './dto/register-user.input'
 export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
 
-  @Mutation(() => User, { name: 'createUser' })
-  async create(@Args('createUserInput') createUserInput: CreateUserInput) {
-    return this.usersService.create(createUserInput)
-  }
-
   @SkipAuth()
   @Mutation(() => User, { name: 'registerUser' })
   async register(
