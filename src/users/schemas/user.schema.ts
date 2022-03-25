@@ -30,10 +30,10 @@ export class User {
   password: string
 
   @Field()
-  createdAt: Date
+  createdAt?: Date
 
   @Field()
-  updatedAt: Date
+  updatedAt?: Date
 }
 
 export const UserSchema = SchemaFactory.createForClass(User)

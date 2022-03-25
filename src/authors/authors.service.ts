@@ -12,7 +12,7 @@ export class AuthorsService {
     private authorModel: Model<AuthorDocument>
   ) {}
 
-  async create(createAuthorInput: CreateAuthorInput) {
+  async create(createAuthorInput: CreateAuthorInput): Promise<Author> {
     console.log('New author ', createAuthorInput)
     const newAuthor = await this.authorModel.create(createAuthorInput)
 
@@ -23,19 +23,24 @@ export class AuthorsService {
     return newAuthor
   }
 
-  findAll() {
-    return this.authorModel.find().exec()
+  async findAll(): Promise<Array<Author>> {
+    return await this.authorModel.find().exec()
   }
 
-  findOne(id: string) {
-    return this.authorModel.findById(id).exec()
+  async findOne(id: string): Promise<Author> {
+    return await this.authorModel.findById(id).exec()
   }
 
-  update(id: string, updateAuthorInput: UpdateAuthorInput) {
-    return this.authorModel.findByIdAndUpdate(id, updateAuthorInput).exec()
+  async update(
+    id: string,
+    updateAuthorInput: UpdateAuthorInput
+  ): Promise<Author> {
+    return await this.authorModel
+      .findByIdAndUpdate(id, updateAuthorInput)
+      .exec()
   }
 
-  remove(id: string) {
-    return this.authorModel.findByIdAndDelete(id).exec()
+  async remove(id: string): Promise<any> {
+    return await this.authorModel.findByIdAndDelete(id).exec()
   }
 }

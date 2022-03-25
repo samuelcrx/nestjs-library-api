@@ -35,9 +35,9 @@ export class BooksService {
     return this.bookModel.findById(id).exec()
   }
 
-  // update(id: string, updateBookInput: UpdateBookInput) {
-  //   return this.bookModel.findByIdAndUpdate(id, updateBookInput).exec()
-  // }
+  update(id: string, updateBookInput: UpdateBookInput) {
+    return this.bookModel.findByIdAndUpdate(id, updateBookInput).exec()
+  }
 
   remove(id: string) {
     return this.bookModel.findByIdAndDelete(id).exec()
