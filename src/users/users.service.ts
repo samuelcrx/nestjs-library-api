@@ -15,19 +15,19 @@ import * as bcrypt from 'bcrypt'
 export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
-  async create(input: RegisterUserInput) {
+  async create(input: RegisterUserInput): Promise<User> {
     const { password: plainPassword } = input
     const salt = await bcrypt.genSalt(Number(process.env.BCRYPT_ROUNDS))
     const password = await bcrypt.hash(plainPassword, salt)
-    return this.userModel.create({ ...input, password })
+    return await this.userModel.create({ ...input, password })
   }
 
-  async findAll() {
-    return this.userModel.find().exec()
+  async findAll(): Promise<Array<User>> {
+    return await this.userModel.find().exec()
   }
 
-  async findOne(id: string) {
-    const user = this.userModel.findById(id).exec()
+  async findOne(id: string): Promise<User> {
+    const user = await this.userModel.findById(id).exec()
 
     if (!user) {
       throw new NotFoundException('User not found')
@@ -35,8 +35,10 @@ export class UsersService {
     return user
   }
 
-  async update(id: string, updateUserInput: UpdateUserInput) {
-    const user = this.userModel.findByIdAndUpdate(id, updateUserInput).exec()
+  async update(id: string, updateUserInput: UpdateUserInput): Promise<User> {
+    const user = await this.userModel
+      .findByIdAndUpdate(id, updateUserInput)
+      .exec()
 
     if (!user) {
       throw new NotFoundException("User doesn't exist")
@@ -44,8 +46,8 @@ export class UsersService {
     return user
   }
 
-  async remove(id: string) {
-    const userDeleted = this.userModel.findByIdAndRemove(id).exec()
+  async remove(id: string): Promise<any> {
+    const userDeleted = await this.userModel.findByIdAndRemove(id).exec()
 
     if (!userDeleted) {
       throw new InternalServerErrorException()
@@ -53,13 +55,13 @@ export class UsersService {
     return userDeleted
   }
 
-  async findByEmail(email: string) {
+  async findByEmail(email: string): Promise<User> {
     const userByEmail = this.userModel.findOne({ email }).exec()
 
     if (!userByEmail) {
       throw new NotFoundException("User doesn't exist")
     }
 
-    return userByEmail
+    return (await userByEmail).toJSON()
   }
 }

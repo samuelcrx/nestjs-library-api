@@ -24,7 +24,7 @@ export class AuthService {
 
     const { password: encryptedPassword } = user
 
-    const payload = user.toJSON()
+    const payload = user
 
     delete payload.password
 

@@ -26,5 +26,5 @@
       "@/strategies/*": ["./src/common/strategies/*"]
     }
   },
-  "exclude": ["dist", "test"]
+  "exclude": ["dist"]
 }
